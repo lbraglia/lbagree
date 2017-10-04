@@ -4,11 +4,33 @@
 \alias{cohen_k}
 \title{Cohen k}
 \usage{
-cohen_k(...)
+cohen_k(x = NULL, conf.level = 0.95)
 }
 \arguments{
-\item{...}{arguments passed to psych::cohen.kappa}
+\item{x}{a table of agreement or a 2 columns structure}
+
+\item{conf.level}{confidence level for confidence intervals}
 }
 \description{
 Cohen k (psych version)
+}
+\examples{
+
+rater_a <- c(rep(1,50), rep(2,30), rep(3,20))
+rater_b <- c(rep(1, 44), rep(2,  5), rep(3, 1),
+       rep(1,  7), rep(2, 20), rep(3, 3),
+       rep(1,  9), rep(2,  5), rep(3, 6))
+tab <- table(rater_a, rater_b)
+rate <- data.frame("A" = rater_a, "B" = rater_b)
+
+cohen_k(tab)
+cohen_k(rate)
+
+## check with
+## ----------
+## irr::kappa2(rate)$value
+## irr::kappa2(rate, weight = "equal")$value
+## irr::kappa2(rate, weight = "squared")$value
+## psych::cohen.kappa(rate)
+
 }
