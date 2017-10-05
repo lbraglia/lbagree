@@ -33,7 +33,6 @@ cohen_k <- function(x = NULL,
                     conf.level = 0.95) 
 {
 
-
     if( !is.null(y) ){
         if (! (is.atomic(x) && is.atomic(y)))
             stop("x and y must be atomic")
