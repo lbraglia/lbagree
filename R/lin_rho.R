@@ -31,5 +31,5 @@ lin_rho <- function(x = NULL,
                           conf.level = conf.level,
                           rep.measure = rep.measure,
                           subjectid = subjectid)
-    rval$rho.c
+    setNames(rval$rho.c, c("estimate", "lower", "upper"))
 }

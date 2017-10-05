@@ -1,7 +1,7 @@
 #' Cohen k
 #'
 #' Cohen k (psych version)
-#' 
+#'
 #' @param x a table of agreement, a 2 columns structure or a single
 #'     vector (first rater) if y is a vector too
 #' @param y a vector (second rater) or NULL
@@ -85,9 +85,11 @@ cohen_k <- function(x = NULL,
                                    levels = NULL)
 
     ## return value
-    rval <- list('unweighted' = (rval_std$confid)[1, ],
-                 'weighted (linear)' = (rval_lin$confid)[2, ],
-                 'weighted (quadratic)' = (rval_std$confid)[2, ])
-                 
+    var_order <- c('estimate', 'lower', 'upper')
+    rval <- list('unweighted' = (rval_std$confid)[1, var_order],
+                 'weighted (linear)' = (rval_lin$confid)[2, var_order],
+                 'weighted (quadratic)' = (rval_std$confid)[2, var_order])
+
+    
     rval
 }
