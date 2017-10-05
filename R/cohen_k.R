@@ -1,7 +1,10 @@
 #' Cohen k
 #'
 #' Cohen k (psych version)
-#' @param x a table of agreement or a 2 columns structure
+#' 
+#' @param x a table of agreement, a 2 columns structure or a single
+#'     vector (first rater) if y is a vector too
+#' @param y a vector (second rater) or NULL
 #' @param conf.level confidence level for confidence intervals
 #' @examples
 #'
@@ -12,6 +15,7 @@
 #' tab <- table(rater_a, rater_b)
 #' rate <- data.frame("A" = rater_a, "B" = rater_b)
 #'
+#' cohen_k(rater_a, rater_b)
 #' cohen_k(tab)
 #' cohen_k(rate)
 #'
@@ -24,15 +28,27 @@
 #' 
 #' @export
 cohen_k <- function(x = NULL,
+                    y = NULL,
                     ## weights = c('none', 'linear', 'squared'),
                     conf.level = 0.95) 
 {
-    if(! (ncol(x) ==2 || (is.table(x))))
-       stop('x must be a table or a 2 columns data structure')
+
+
+    if( !is.null(y) ){
+        if (! (is.atomic(x) && is.atomic(y)))
+            stop("x and y must be atomic")
+        if (length(x) != length(y))
+            stop("x and y must have the same length")
+        ## se passa tutti i controlli uniformiamo al caso con un
+        ## data.frame o matrice su cui si basa il codice a seguire
+        x <- cbind(x, y)
+    } else if(! (ncol(x) ==2 || (is.table(x))))
+        stop('if y is NULL x must be a table or a 2 columns data structure')
+    
     if(conf.level >= 1 || conf.level <= 0)
         stop('conf.level must be between 0 and 1')
-    ## weights <- match.arg(weights)
 
+    ## weights <- match.arg(weights)
     tab <- if (is.table(x)) x else table(x[, 1], x[, 2])
 
     ## la accetta un tipo di peso simile a quello dato nell'esempio

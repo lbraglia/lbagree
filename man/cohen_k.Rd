@@ -4,10 +4,13 @@
 \alias{cohen_k}
 \title{Cohen k}
 \usage{
-cohen_k(x = NULL, conf.level = 0.95)
+cohen_k(x = NULL, y = NULL, conf.level = 0.95)
 }
 \arguments{
-\item{x}{a table of agreement or a 2 columns structure}
+\item{x}{a table of agreement, a 2 columns structure or a single
+vector (first rater) if y is a vector too}
+
+\item{y}{a vector (second rater) or NULL}
 
 \item{conf.level}{confidence level for confidence intervals}
 }
@@ -23,6 +26,7 @@ rater_b <- c(rep(1, 44), rep(2,  5), rep(3, 1),
 tab <- table(rater_a, rater_b)
 rate <- data.frame("A" = rater_a, "B" = rater_b)
 
+cohen_k(rater_a, rater_b)
 cohen_k(tab)
 cohen_k(rate)
 
