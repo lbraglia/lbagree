@@ -86,9 +86,11 @@ cohen_k <- function(x = NULL,
 
     ## return value
     var_order <- c('estimate', 'lower', 'upper')
-    rval <- list('unweighted' = (rval_std$confid)[1, var_order],
-                 'weighted (linear)' = (rval_lin$confid)[2, var_order],
-                 'weighted (quadratic)' = (rval_std$confid)[2, var_order])
+    rval <- list(
+        'table' = tab,
+        'unweighted' = (rval_std$confid)[1, var_order],
+        'weighted (linear)' = (rval_lin$confid)[2, var_order],
+        'weighted (quadratic)' = (rval_std$confid)[2, var_order])
 
     
     rval
