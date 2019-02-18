@@ -2,6 +2,8 @@
 
 export(cohen_k)
 export(lin_rho)
+export(occc)
+importFrom(agRee,agree.ccc)
 importFrom(epiR,epi.ccc)
 importFrom(epiR,epi.kappa)
 importFrom(psych,cohen.kappa)

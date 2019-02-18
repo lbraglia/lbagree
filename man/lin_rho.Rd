@@ -2,7 +2,7 @@
 % Please edit documentation in R/lin_rho.R
 \name{lin_rho}
 \alias{lin_rho}
-\title{Lin's Rho}
+\title{Lin's Rho (or CCC)}
 \usage{
 lin_rho(x = NULL, y = NULL, ci = c("z-transform", "asymptotic"),
   conf.level = 0.95, rep.measure = FALSE, subjectid = NULL)
@@ -21,5 +21,6 @@ lin_rho(x = NULL, y = NULL, ci = c("z-transform", "asymptotic"),
 \item{subjectid}{factor providing id of the observer if rep.measure == TRUE}
 }
 \description{
-Lin's agreement correlation coefficient (using epiR::epi.ccc as workhorse)
+Lin's agreement/concordance correlation coefficient (using
+epiR::epi.ccc as workhorse)
 }

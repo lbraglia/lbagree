@@ -1,6 +1,7 @@
-#' Lin's Rho
+#' Lin's Rho (or CCC)
 #'
-#' Lin's agreement correlation coefficient (using epiR::epi.ccc as workhorse)
+#' Lin's agreement/concordance correlation coefficient (using
+#' epiR::epi.ccc as workhorse)
 #'
 #' @param x vector of first set of measurements
 #' @param y vector of first set of measurements
@@ -32,4 +33,20 @@ lin_rho <- function(x = NULL,
                           rep.measure = rep.measure,
                           subjectid = subjectid)
     setNames(rval$rho.c, c("estimate", "lower", "upper"))
+}
+
+#' OCCC (overall concordance correlation coefficient)
+#'
+#' da citare barnhart2002occc
+#' 
+#' @param x data.frame of measurement one column for rater
+#' @param ... further arguments passed to agRee::agree.ccc
+#'
+#' @export
+occc <- function(x, ...){
+    
+    x <- NA_remove(x, quiet = TRUE)
+    res <- agRee::agree.ccc(ratings = as.matrix(x), ...)
+    setNames(unlist(res), c('estimate', 'lower', 'upper'))
+
 }

@@ -95,3 +95,17 @@ cohen_k <- function(x = NULL,
     
     rval
 }
+
+
+## fonte: progetto prj17_bertocchi_agreement2
+## fleiss_k <- function(x, ...){
+##     ## browser()
+##     my_scores <- NA_remove(x, quiet = TRUE) 
+##     data_num <- as.data.frame(lapply(my_scores, as.integer))
+##     data_num <- t(apply(data_num, 1, 
+##                         function(y) table(factor(y, levels = 1:2))))
+##     rat_result <- raters::concordance(data_num, test = 'MC')
+##     setNames(rat_result$Fleiss[1:3], c('estimate', 'lower', 'upper'))
+## }
+
+
