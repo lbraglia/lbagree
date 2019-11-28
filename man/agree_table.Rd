@@ -4,7 +4,14 @@
 \alias{agree_table}
 \title{Calculate agreement between two nominal/ordinal variables}
 \usage{
-agree_table(x, y, cohen_k = c("uw", "wl", "wq"), conf.level = 0.95, ...)
+agree_table(
+  x,
+  y,
+  cohen_k = c("uw", "wl", "wq"),
+  caption_prefix = "",
+  conf.level = 0.95,
+  ...
+)
 }
 \arguments{
 \item{x}{first qualitative variable}
@@ -12,6 +19,8 @@ agree_table(x, y, cohen_k = c("uw", "wl", "wq"), conf.level = 0.95, ...)
 \item{y}{first second variable}
 
 \item{cohen_k}{weight for cohen (uw = unweighted, 'wl = linearly weighted',}
+
+\item{caption_prefix}{prefix used in the latex caption}
 
 \item{conf.level}{confidence level for estimate confidence interval}
 

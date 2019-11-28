@@ -91,7 +91,6 @@ cohen_k <- function(x = NULL,
         'unweighted' = (rval_std$confid)[1, var_order],
         'weighted (linear)' = (rval_lin$confid)[2, var_order],
         'weighted (quadratic)' = (rval_std$confid)[2, var_order])
-
     
     rval
 }
