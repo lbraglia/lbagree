@@ -18,14 +18,14 @@ agree_table <- function(x, y, cohen_k = c('uw', 'wl', 'wq'),
                    wl = cohen$`weighted (linear)`[1],
                    wq = cohen$`weighted (quadratic)`[1])
     method <- switch(cohen_k,
-                   uw = "Cohen's Kappa (unweighted)",
-                   wl = "Cohen's Kappa (linearly weighted)",
-                   wq = "Cohen's Kappa (quadratically weighted)")
+                     uw = "Cohen's Kappa (unweighted)",
+                     wl = "Cohen's Kappa (linearly weighted)",
+                     wq = "Cohen's Kappa (quadratically weighted)")
     caption <- sprintf("Agreement table, %s = %.3f ", method, stat)
-    biv_quali(x = x, y = y, 
-              perc = 'none', 
-              test = 'none', 
-              useNA = 'no',
-              caption = caption, 
-              ...)
+    lbstat::biv_quali(x = x, y = y, 
+                      perc = 'none', 
+                      test = 'none', 
+                      useNA = 'no',
+                      caption = caption, 
+                      ...)
 }

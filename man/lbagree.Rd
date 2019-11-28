@@ -3,7 +3,6 @@
 \docType{package}
 \name{lbagree}
 \alias{lbagree}
-\alias{lbagree-package}
 \title{lbagree.}
 \description{
 lbagree.

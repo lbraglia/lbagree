@@ -4,8 +4,14 @@
 \alias{lin_rho}
 \title{Lin's Rho (or CCC)}
 \usage{
-lin_rho(x = NULL, y = NULL, ci = c("z-transform", "asymptotic"),
-  conf.level = 0.95, rep.measure = FALSE, subjectid = NULL)
+lin_rho(
+  x = NULL,
+  y = NULL,
+  ci = c("z-transform", "asymptotic"),
+  conf.level = 0.95,
+  rep.measure = FALSE,
+  subjectid = NULL
+)
 }
 \arguments{
 \item{x}{vector of first set of measurements}

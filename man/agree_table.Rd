@@ -4,8 +4,7 @@
 \alias{agree_table}
 \title{Calculate agreement between two nominal/ordinal variables}
 \usage{
-agree_table(x, y, cohen_k = c("uw", "wl", "wq"), conf.level = 0.95,
-  ...)
+agree_table(x, y, cohen_k = c("uw", "wl", "wq"), conf.level = 0.95, ...)
 }
 \arguments{
 \item{x}{first qualitative variable}
