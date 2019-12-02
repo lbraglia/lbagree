@@ -8,6 +8,7 @@ agree_table(
   x,
   y,
   cohen_k = c("uw", "wl", "wq"),
+  print_ci = TRUE,
   caption_prefix = "",
   conf.level = 0.95,
   ...
@@ -18,7 +19,10 @@ agree_table(
 
 \item{y}{first second variable}
 
-\item{cohen_k}{weight for cohen (uw = unweighted, 'wl = linearly weighted',}
+\item{cohen_k}{weight for cohen (uw = unweighted, 'wl' = linearly
+weighted, 'wq' = quadratically weighted)}
+
+\item{print_ci}{print confidence interval in caption}
 
 \item{caption_prefix}{prefix used in the latex caption}
 

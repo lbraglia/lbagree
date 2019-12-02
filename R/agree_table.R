@@ -2,7 +2,9 @@
 #' 
 #' @param x first qualitative variable
 #' @param y first second variable
-#' @param cohen_k weight for cohen (uw = unweighted, 'wl = linearly weighted',
+#' @param cohen_k weight for cohen (uw = unweighted, 'wl' = linearly
+#'     weighted, 'wq' = quadratically weighted)
+#' @param print_ci print confidence interval in caption
 #' @param caption_prefix prefix used in the latex caption
 #' @param conf.level confidence level for estimate confidence interval
 #' @param ... further arguments passed to biv_quali
@@ -10,6 +12,7 @@
 #' @export
 agree_table <- function(x, y,
                         cohen_k = c('uw', 'wl', 'wq'),
+                        print_ci = TRUE,
                         caption_prefix = "",
                         conf.level = 0.95,  
                         ...) 
@@ -24,14 +27,23 @@ agree_table <- function(x, y,
                    uw = cohen$unweighted,
                    wl = cohen$`weighted (linear)`,
                    wq = cohen$`weighted (quadratic)`)
-    caption <- sprintf("%s%s table, %s = %.3f (%.2f CI: %.3f to %.3f)",
-                       caption_prefix,
-                       if (caption_prefix == '') "Agreement" else " agreement",
-                       method,
-                       stat[1], # coefficient
-                       conf.level,
-                       stat[2], # low.ci
-                       stat[3])  # up.ci
+
+    caption <-
+        if (print_ci) {
+            sprintf("%s%s table, %s = %.3f (%.2f CI: %.3f to %.3f)",
+                    caption_prefix,
+                    if (caption_prefix == '') "Agreement" else " agreement",
+                    method,
+                    stat[1], # coefficient
+                    conf.level,
+                    stat[2], # low.ci
+                    stat[3])  # up.ci
+        } else {
+            sprintf("%s%s table, %s = %.3f",
+                    caption_prefix,
+                    if (caption_prefix == '') "Agreement" else " agreement",
+                    method, stat[1]) 
+        }
     lbstat::biv_quali(x = x, y = y, 
                       perc = 'none', 
                       test = 'none', 

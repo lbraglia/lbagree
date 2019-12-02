@@ -40,7 +40,10 @@ cohen_k <- function(x = NULL,
             stop("x and y must have the same length")
         ## se passa tutti i controlli uniformiamo al caso con un
         ## data.frame o matrice su cui si basa il codice a seguire
-        x <- cbind(x, y)
+        ## l'uso di data.frame affinché i factor non si perdano in una
+        ## matrice nei casi particolari (in cui una modalità non sia
+        ## rappresentata per un rater)
+        x <- cbind(data.frame(x), y)
     } else if(! (ncol(x) ==2 || (is.table(x))))
         stop('if y is NULL x must be a table or a 2 columns data structure')
     
