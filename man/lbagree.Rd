@@ -4,6 +4,3 @@
 \name{lbagree}
 \alias{lbagree}
 \title{lbagree.}
-\description{
-lbagree.
-}
