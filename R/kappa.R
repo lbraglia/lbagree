@@ -98,16 +98,70 @@ cohen_k <- function(x = NULL,
     rval
 }
 
+#' Fleiss' kappa
+#'
+#' Fleiss' kappa (Cohen's equivalent for multiple raters)
+#' 
+#' @param x a data.frame with one column per scale item/subject and
+#'     one row per rater. Judgement can be a factors or integers
+#' @param nlevels number of levels of possible rating/judgement
+#' @param raters_par arguments passed to raters::concordance
+#' @param irr_par arguments passed to irr::kappam.fleiss
+#' @examples
+#' ## reproducing the example from https://en.wikipedia.org/wiki/Fleiss%27_kappa
+#' item1  <- rep(5, 14)
+#' item2  <- c(rep(1,0), rep(2,2), rep(3,6), rep(4,4), rep(5,2))
+#' item3  <- c(rep(1,0), rep(2,0), rep(3,3), rep(4,5), rep(5,6))
+#' item4  <- c(rep(1,0), rep(2,3), rep(3,9), rep(4,2), rep(5,0))
+#' item5  <- c(rep(1,2), rep(2,2), rep(3,8), rep(4,1), rep(5,1))
+#' item6  <- c(rep(1,7), rep(2,7), rep(3,0), rep(4,0), rep(5,0))
+#' item7  <- c(rep(1,3), rep(2,2), rep(3,6), rep(4,3), rep(5,0))
+#' item8  <- c(rep(1,2), rep(2,5), rep(3,3), rep(4,2), rep(5,2))
+#' item9  <- c(rep(1,6), rep(2,5), rep(3,2), rep(4,1), rep(5,0))
+#' item10 <- c(rep(1,0), rep(2,2), rep(3,2), rep(4,3), rep(5,7))
+#' 
+#' df <-  data.frame(item1, item2, item3, item4, item5,
+#'                   item6, item7, item8, item9, item10)
+#' df
+#' fleiss_k(x = df, nlevels = 5)
+#' @export
+fleiss_k <- function(x,
+                     nlevels = NULL,
+                     raters_par = list(test = "MC", B = 1000, alpha = 0.05),
+                     irr_par = list(exact = FALSE, detail = FALSE)){
 
-## fonte: progetto prj17_bertocchi_agreement2
-## fleiss_k <- function(x, ...){
-##     ## browser()
-##     my_scores <- NA_remove(x, quiet = TRUE) 
-##     data_num <- as.data.frame(lapply(my_scores, as.integer))
-##     data_num <- t(apply(data_num, 1, 
-##                         function(y) table(factor(y, levels = 1:2))))
-##     rat_result <- raters::concordance(data_num, test = 'MC')
-##     setNames(rat_result$Fleiss[1:3], c('estimate', 'lower', 'upper'))
-## }
+    
+    if (is.null(nlevels)) {
+        stop("specify number of levels for the rating")
+        ## tmp <- as.matrix(x)
+        ## dim(tmp) <- NULL
+        ## nlevels <- length(unique(tmp %without% NA))
+    }
+
+    ## todo. E' giusto eliminare un rater se ha dato missing ad un
+    ## item o è più corretto eliminare un item? è più giusto un item
+
+    ## eliminare rater
+    not_na <- lbmisc::NA_remove(x, quiet = FALSE)
+
+    type_norm <- function(y)
+        factor(as.integer(y), levels = seq_len(nlevels))
+
+    ## raters package results
+    data_norm <- as.data.frame(lapply(not_na, type_norm))
+    freqs <- do.call(rbind, lapply(data_norm, table))
+    raters_params <- c(list("db" = freqs), raters_par)
+    raters_res <- do.call(raters::concordance, raters_params)
+
+    ## irr package results
+    irr_params <-  c(list("ratings" = t(not_na)), irr_par)
+    irr_res <- do.call(irr::kappam.fleiss, irr_params)
+    
+    ## reporting
+    list('freqs' = freqs,
+         'raters_res' = raters_res,
+         'irr_res'    = irr_res)
+    
+}
 
 

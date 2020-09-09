@@ -6,6 +6,7 @@
 #' @importFrom psych cohen.kappa
 #' @importFrom agRee agree.ccc
 #' @importFrom lbstat biv_quali
-#' 
+#' @importFrom raters concordance
+#' @importFrom irr kappam.fleiss
 #' @docType package
 NULL
