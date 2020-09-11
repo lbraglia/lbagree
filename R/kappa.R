@@ -107,8 +107,10 @@ cohen_k <- function(x = NULL,
 #' @param nlevels number of levels of possible rating/judgement
 #' @param raters_par arguments passed to raters::concordance
 #' @param irr_par arguments passed to irr::kappam.fleiss
+#' @param gwet_par arguments passed to irrCAC::gwet.ac1.dist
 #' @examples
-#' ## reproducing the example from https://en.wikipedia.org/wiki/Fleiss%27_kappa
+#' ## reproducing the example from
+#' ## https://en.wikipedia.org/wiki/Fleiss%27_kappa
 #' item1  <- rep(5, 14)
 #' item2  <- c(rep(1,0), rep(2,2), rep(3,6), rep(4,4), rep(5,2))
 #' item3  <- c(rep(1,0), rep(2,0), rep(3,3), rep(4,5), rep(5,6))
@@ -124,11 +126,16 @@ cohen_k <- function(x = NULL,
 #'                   item6, item7, item8, item9, item10)
 #' df
 #' fleiss_k(x = df, nlevels = 5)
+#' 
 #' @export
 fleiss_k <- function(x,
                      nlevels = NULL,
                      raters_par = list(test = "MC", B = 1000, alpha = 0.05),
-                     irr_par = list(exact = FALSE, detail = FALSE)){
+                     irr_par = list(exact = FALSE, detail = FALSE),
+                     gwet_par = list(weights = "unweighted",
+                                     categ = NULL,
+                                     conflev = 0.95, N = Inf)
+                     ){
 
     
     if (is.null(nlevels)) {
@@ -147,20 +154,25 @@ fleiss_k <- function(x,
     type_norm <- function(y)
         factor(as.integer(y), levels = seq_len(nlevels))
 
-    ## raters package results
-    data_norm <- as.data.frame(lapply(not_na, type_norm))
-    freqs <- do.call(rbind, lapply(data_norm, table))
-    raters_params <- c(list("db" = freqs), raters_par)
-    raters_res <- do.call(raters::concordance, raters_params)
-
     ## irr package results
     irr_params <-  c(list("ratings" = t(not_na)), irr_par)
     irr_res <- do.call(irr::kappam.fleiss, irr_params)
     
+    ## raters package results
+    data_norm <- as.data.frame(lapply(not_na, type_norm))
+    freqs <- do.call(rbind, lapply(data_norm, table))
+    raters_params <- c(list("db" = freqs), raters_par)
+    capture.output(raters_res <- do.call(raters::concordance, raters_params))
+
+    ## gwet AC1 (irrCAC package)
+    gwet_params <- c(list("ratings" = freqs), gwet_par)
+    gwet_res <- do.call(irrCAC::gwet.ac1.dist, gwet_params)
+    
     ## reporting
     list('freqs' = freqs,
+         'irr_res'    = irr_res,
          'raters_res' = raters_res,
-         'irr_res'    = irr_res)
+         'gwet_ac1' = gwet_res)
     
 }
 

@@ -8,7 +8,8 @@ fleiss_k(
   x,
   nlevels = NULL,
   raters_par = list(test = "MC", B = 1000, alpha = 0.05),
-  irr_par = list(exact = FALSE, detail = FALSE)
+  irr_par = list(exact = FALSE, detail = FALSE),
+  gwet_par = list(weights = "unweighted", categ = NULL, conflev = 0.95, N = Inf)
 )
 }
 \arguments{
@@ -20,12 +21,15 @@ one row per rater. Judgement can be a factors or integers}
 \item{raters_par}{arguments passed to raters::concordance}
 
 \item{irr_par}{arguments passed to irr::kappam.fleiss}
+
+\item{gwet_par}{arguments passed to irrCAC::gwet.ac1.dist}
 }
 \description{
 Fleiss' kappa (Cohen's equivalent for multiple raters)
 }
 \examples{
-## reproducing the example from https://en.wikipedia.org/wiki/Fleiss\%27_kappa
+## reproducing the example from
+## https://en.wikipedia.org/wiki/Fleiss\%27_kappa
 item1  <- rep(5, 14)
 item2  <- c(rep(1,0), rep(2,2), rep(3,6), rep(4,4), rep(5,2))
 item3  <- c(rep(1,0), rep(2,0), rep(3,3), rep(4,5), rep(5,6))
@@ -41,4 +45,5 @@ df <-  data.frame(item1, item2, item3, item4, item5,
                   item6, item7, item8, item9, item10)
 df
 fleiss_k(x = df, nlevels = 5)
+
 }
