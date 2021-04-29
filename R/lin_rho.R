@@ -84,3 +84,36 @@ occc <- function(x, ...){
     setNames(unlist(res), c('estimate', 'lower', 'upper'))
 
 }
+
+
+
+#' computes difference between lin CCC (and confidence interval)
+#' comparing x and y with a reference standard
+#'
+#' @param x first measurement (classical)
+#' @param y second measurement (experimental)
+#' @param refstd reference standard for measurement
+#' @param conf confidence level
+#' @param R bootstrap replicates
+#' 
+#' @export
+lin_diff <- function(x, y, refstd, conf = 0.95, R = 10000){
+    f <- function(a, b) lbagree::lin_rho(x = a, y = b)$estimate
+    lin_x <- lbagree::lin_rho(x = x, y = refstd)
+    lin_y <- lbagree::lin_rho(x = y, y = refstd)
+    
+    est <- f(y, refstd) - f(x, refstd) 
+    ## percentile confidence interval
+    db <- data.frame("x" = x, "y" = y, "refstd" = refstd)
+    diff_f <- function(data, i) {
+        f(data[i, 'y'], data[i, 'refstd']) - 
+        f(data[i, 'x'], data[i, 'refstd']) 
+    }
+    res <-  boot::boot(data = db, statistic = diff_f, R = R)
+    ci <- boot::boot.ci(res, type = 'bca', conf = conf)
+    boot_ci <- ci[[4]][4:5]
+    res <- c(est, boot_ci)
+    nm <- c('CCC diff', 'Lower CI', "Upper CI")
+    diff <- setNames(res, nm = nm)
+    list('lin_x' = lin_x, 'lin_y' = lin_y, 'diff' = diff)
+}

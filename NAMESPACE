@@ -3,6 +3,7 @@
 export(agree_table)
 export(cohen_k)
 export(fleiss_k)
+export(lin_diff)
 export(lin_plot)
 export(lin_rho)
 export(occc)
