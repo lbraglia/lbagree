@@ -7,4 +7,4 @@ Depends: R (>= 3.3.3)
 Imports: epiR, psych, agRee, lbstat
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
