@@ -9,5 +9,4 @@
 #' @importFrom lbstat biv_quali
 #' @importFrom psych cohen.kappa
 #' @importFrom raters concordance
-#' @docType package
 NULL
